@@ -1,38 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
+import { useStudent } from "../context/StudentContext";
 import {
   calculateTotal,
   calculateGrade,
   getRemarkFromGrade,
 } from "../utils/calculations";
 
-const subjects = [
-  "ENGLISH LANGUAGE",
-  "MATHEMATICS",
-  "SOCIAL STUDIES",
-  "RELIGIOUS AND MORAL",
-  "FRENCH",
-  "CREATIVE ARTS",
-  "GHANAIAN LANGUAGE",
-  "CAREER TECHNOLOGY",
-];
-
 const ReportTable = () => {
-  const [scores, setScores] = useState(
-    subjects.map((subject) => ({
-      subject,
-      classScore: "",
-      examScore: "",
-      total: 0,
-      grade: "",
-      position: "",
-      remark: "",
-    }))
-  );
-   
-  console.log(scores);
-  
+  const { selectedStudent, updateStudentScores } = useStudent();
+
   const handleScoreChange = (index, field, value) => {
-    const newScores = [...scores];
+    if (!selectedStudent) return;
+
+    const newScores = [...selectedStudent.scores];
     newScores[index][field] = value;
 
     if (newScores[index].classScore && newScores[index].examScore) {
@@ -46,8 +26,16 @@ const ReportTable = () => {
       newScores[index].remark = getRemarkFromGrade(grade);
     }
 
-    setScores(newScores);
+    updateStudentScores(selectedStudent.id, newScores);
   };
+
+  if (!selectedStudent) {
+    return (
+      <div className="w-full p-4 text-center text-gray-500">
+        Please select a student to view or edit their report
+      </div>
+    );
+  }
 
   return (
     <div className="w-full p-4">
@@ -78,7 +66,7 @@ const ReportTable = () => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {scores.map((score, index) => (
+          {selectedStudent.scores.map((score, index) => (
             <tr key={score.subject} className="hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {score.subject}

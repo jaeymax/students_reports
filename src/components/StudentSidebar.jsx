@@ -1,15 +1,22 @@
 import React, { useState } from "react";
+import { useStudent } from "../context/StudentContext";
 import AddStudentModal from "./AddStudentModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 const StudentSidebar = () => {
-  const [students, setStudents] = useState([]);
+  const {
+    students,
+    setStudents,
+    selectedStudent,
+    setSelectedStudent,
+    addStudent,
+  } = useStudent();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState(null);
   const [deletingStudent, setDeletingStudent] = useState(null);
 
   const handleAddStudent = (studentName) => {
-    setStudents([...students, { id: Date.now(), name: studentName }]);
+    addStudent(studentName);
     setIsModalOpen(false);
   };
 
@@ -39,6 +46,10 @@ const StudentSidebar = () => {
     setIsModalOpen(true);
   };
 
+  const handleStudentClick = (student) => {
+    setSelectedStudent(student);
+  };
+
   return (
     <div className="w-64 h-screen bg-white border-l border-gray-200 p-4">
       <div className="flex justify-between items-center mb-4">
@@ -58,7 +69,13 @@ const StudentSidebar = () => {
         {students.map((student) => (
           <div
             key={student.id}
-            className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md group"
+            className={`flex items-center justify-between p-2 rounded-md group cursor-pointer
+              ${
+                selectedStudent?.id === student.id
+                  ? "bg-blue-50"
+                  : "hover:bg-gray-50"
+              }`}
+            onClick={() => handleStudentClick(student)}
           >
             <span>{student.name}</span>
             <div className="space-x-2">

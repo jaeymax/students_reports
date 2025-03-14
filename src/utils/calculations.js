@@ -28,3 +28,52 @@ export const getRemarkFromGrade = (grade) => {
   };
   return remarks[grade] || "";
 };
+
+export const calculatePositions = (students, subjectIndex) => {
+  // Get all scores for the specific subject
+  const subjectScores = students.map((student) => ({
+    id: student.id,
+    total: student.scores[subjectIndex].total,
+  }));
+
+  // Sort by total score in descending order
+  const sortedScores = subjectScores.sort((a, b) => b.total - a.total);
+
+  // Create position mapping
+  const positions = new Map();
+  let currentPosition = 1;
+  let currentScore = -1;
+  let samePositionCount = 0;
+
+  sortedScores.forEach((score, index) => {
+    if (score.total === currentScore) {
+      // Same score gets same position
+      samePositionCount++;
+    } else {
+      currentPosition = index + 1;
+      currentScore = score.total;
+      samePositionCount = 0;
+    }
+    positions.set(
+      score.id,
+      `${currentPosition}${getPositionSuffix(currentPosition)}`
+    );
+  });
+
+  return positions;
+};
+
+const getPositionSuffix = (position) => {
+  if (position > 10 && position < 20) return "th";
+  const lastDigit = position % 10;
+  switch (lastDigit) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
