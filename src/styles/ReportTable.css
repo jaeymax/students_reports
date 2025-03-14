@@ -1,0 +1,25 @@
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.report-table th {
+  background-color: #f4f4f4;
+}
+
+.report-table input {
+  width: 60px;
+  padding: 4px;
+}
+
+.report-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
