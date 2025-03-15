@@ -50,15 +50,15 @@ const PDFPreviewModal = ({ isOpen, onClose, report }) => {
       <div>
         <div  className="flex">
           <div className="left w-[150px] h-[100px]" >
-
+              <img src="./logo.png" className="w-full h-full object-contain" alt="" />
           </div>
-          <div className="right borde flex-1 text-center space-y-2">
+          <div className="right flex-1 text-center space-y-2">
               <h1 className="text-2xl font-bold" >BRILLIANT KIDS EDUCATIONAL INSTITUTE</h1>
               <p className="italic font-medium" >Motto: Firm foundation & sound teaching our priority</p>
               <h6 className="underline font-bold">BASIC SIX TO JHS TERMINAL REPORT</h6>
               <h6 className="underline font-bold" >TERM: ONE</h6>
-              <div className="flex gap-5" >
-                <p>VACATION DATE: <span className="font-bold" >20<sup>TH</sup> DEC, 2024</span></p>
+              <div className="flex gap-5 text-center" >
+                <p className="text-center" >VACATION DATE: <span className="font-bold" >20<sup>TH</sup> DEC, 2024</span></p>
                 <p>RE-OPENING DATE: <span className="font-bold" >6<sup>TH</sup> JAN, 2025</span></p>
               </div>
           </div>

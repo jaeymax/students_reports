@@ -1,11 +1,15 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { subjects } from "../utils/constants";
 import { calculatePositions } from "../utils/calculations";
 
 const StudentContext = createContext();
 
 export const StudentProvider = ({ children }) => {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState(() => {
+    // Load initial students from localStorage
+    const savedStudents = localStorage.getItem("students");
+    return savedStudents ? JSON.parse(savedStudents) : [];
+  });
   const [selectedStudent, setSelectedStudent] = useState(null);
 
   const updatePositions = () => {
@@ -72,6 +76,10 @@ export const StudentProvider = ({ children }) => {
     setTimeout(() => updatePositions(), 0);
   };
 
+  const saveToLocalStorage = () => {
+    localStorage.setItem("students", JSON.stringify(students));
+  };
+
   return (
     <StudentContext.Provider
       value={{
@@ -81,6 +89,7 @@ export const StudentProvider = ({ children }) => {
         setSelectedStudent,
         addStudent,
         updateStudentScores,
+        saveToLocalStorage,
       }}
     >
       {children}

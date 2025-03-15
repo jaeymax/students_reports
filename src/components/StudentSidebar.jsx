@@ -12,6 +12,7 @@ const StudentList = () => {
     selectedStudent,
     setSelectedStudent,
     addStudent,
+    saveToLocalStorage,
   } = useStudent();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState(null);
@@ -57,15 +58,23 @@ const StudentList = () => {
       <div className="flex justify-between items-center p-4 sticky top-0 bg-white border-b">
         <h2 className="text-lg font-semibold md:hidden">Student List</h2>
         <h2 className="text-lg font-semibold hidden md:block">Students</h2>
-        <button
-          onClick={() => {
-            setEditingStudent(null);
-            setIsModalOpen(true);
-          }}
-          className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-sm"
-        >
-          Add Student
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={saveToLocalStorage}
+            className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 text-sm"
+          >
+            Save
+          </button>
+          <button
+            onClick={() => {
+              setEditingStudent(null);
+              setIsModalOpen(true);
+            }}
+            className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-sm"
+          >
+            Add Student
+          </button>
+        </div>
       </div>
 
       <div className="md:space-y-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2 p-4">
