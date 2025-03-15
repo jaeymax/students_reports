@@ -10,8 +10,7 @@ export const StudentProvider = ({ children }) => {
 
   const updatePositions = () => {
     setStudents((currentStudents) => {
-      if (currentStudents.length <= 1) return currentStudents;
-
+      // Remove the length check so positions are calculated even with one student
       const updatedStudents = currentStudents.map((student) => ({
         ...student,
         scores: student.scores.map((score, index) => ({

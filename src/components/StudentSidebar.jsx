@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useStudent } from "../context/StudentContext";
 import AddStudentModal from "./AddStudentModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import { CiTrash } from "react-icons/ci";
+import { CiEdit } from "react-icons/ci";
 
-const StudentSidebar = () => {
+const StudentList = () => {
   const {
     students,
     setStudents,
@@ -51,9 +53,10 @@ const StudentSidebar = () => {
   };
 
   return (
-    <div className="w-64 h-screen bg-white border-l border-gray-200 p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Students</h2>
+    <div className="md:w-64 w-full flex-1 md:h-screen md:border-l border-t md:border-t-0 border-gray-200 bg-white">
+      <div className="flex justify-between items-center p-4 sticky top-0 bg-white border-b">
+        <h2 className="text-lg font-semibold md:hidden">Student List</h2>
+        <h2 className="text-lg font-semibold hidden md:block">Students</h2>
         <button
           onClick={() => {
             setEditingStudent(null);
@@ -65,31 +68,37 @@ const StudentSidebar = () => {
         </button>
       </div>
 
-      <div className="space-y-2">
+      <div className="md:space-y-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2 p-4">
         {students.map((student) => (
           <div
             key={student.id}
-            className={`flex items-center justify-between p-2 rounded-md group cursor-pointer
+            className={`flex items-center justify-between p-3 rounded-md cursor-pointer border
               ${
                 selectedStudent?.id === student.id
-                  ? "bg-blue-50"
-                  : "hover:bg-gray-50"
+                  ? "bg-blue-50 border-blue-200"
+                  : "hover:bg-gray-50 border-gray-100"
               }`}
             onClick={() => handleStudentClick(student)}
           >
-            <span>{student.name}</span>
-            <div className="space-x-2">
+            <span className="font-medium">{student.name}</span>
+            <div className="flex space-x-3">
               <button
-                onClick={() => openEditModal(student)}
-                className="text-blue-500 hover:text-blue-700 text-sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openEditModal(student);
+                }}
+                className="text-blue-500 hover:text-blue-700 text-xl"
               >
-                Edit
+                <CiEdit />
               </button>
               <button
-                onClick={() => setDeletingStudent(student)}
-                className="text-red-500 hover:text-red-700 text-sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDeletingStudent(student);
+                }}
+                className="text-red-500 hover:text-red-700 text-xl"
               >
-                Delete
+                <CiTrash />
               </button>
             </div>
           </div>
@@ -117,4 +126,4 @@ const StudentSidebar = () => {
   );
 };
 
-export default StudentSidebar;
+export default StudentList;

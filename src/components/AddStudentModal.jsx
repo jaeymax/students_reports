@@ -35,7 +35,7 @@ const AddStudentModal = ({
             value={studentName}
             onChange={(e) => setStudentName(e.target.value)}
             placeholder="Enter student name"
-            className="w-full p-2 border border-gray-300 rounded-md mb-4"
+            className="w-full p-2 border border-gray-300 rounded-md mb-4 outline-none"
           />
           <div className="flex justify-end space-x-2">
             <button

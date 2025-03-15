@@ -6,12 +6,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ReportTable from "./components/ReportTable";
 import StudentSidebar from "./components/StudentSidebar";
 import { StudentProvider } from "./context/StudentContext";
+import PdfTemplate from "./components/PdfTemplate";
 
 function App() {
   return (
     <StudentProvider>
       <Router>
-        <div className="flex">
+        <div className="flex flex-col md:flex-row min-h-screen">
           <div className="flex-1">
             <div className="container p-4">
               <h1 className="text-2xl font-bold mb-4">
@@ -19,6 +20,8 @@ function App() {
               </h1>
               <Routes>
                 <Route path="/" element={<ReportTable />} />
+                
+                <Route path="/pdf" element={<PdfTemplate />} />
               </Routes>
             </div>
           </div>
