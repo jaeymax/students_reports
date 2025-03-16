@@ -100,6 +100,7 @@ const PdfTemplate = () => {
               ))}
             </tbody>
           </table>
+          
         </div>
       </div>
     </div>

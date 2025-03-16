@@ -44,7 +44,7 @@ const ReportTable = () => {
     );
   }
 
-  
+
 
   return (
     <div className="w-full p-4">
@@ -63,13 +63,8 @@ const ReportTable = () => {
         </button>
       </div>
 
-      <div ref={targetRef}>
-        <h1 className="text-2xl font-bold mb-4 text-center">
-          Student Report Card
-        </h1>
-        <h2 className="text-xl mb-6 text-center">
-          Student: {selectedStudent.name}
-        </h2>
+      <div>
+       
 
         <div className="relative overflow-x-auto md:overflow-hidden shadow-sm rounded-lg border border-gray-300">
           {/* Show scroll indicator on mobile */}
@@ -159,6 +154,7 @@ const ReportTable = () => {
 
       <PDFPreviewModal
         isOpen={showPreview}
+        ref={targetRef}
         onClose={() => setShowPreview(false)}
         report={{
           name: selectedStudent.name,
