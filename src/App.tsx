@@ -7,20 +7,27 @@ import ReportTable from "./components/ReportTable";
 import StudentSidebar from "./components/StudentSidebar";
 import { StudentProvider } from "./context/StudentContext";
 import PdfTemplate from "./components/PdfTemplate";
+import IntroPage from "./components/IntroPage";
 
 function App() {
+  const [selectedClass, setSelectedClass] = useState<string | null>(null);
+
+  if (!selectedClass) {
+    return <IntroPage onClassSelect={setSelectedClass} />;
+  }
+
   return (
     <StudentProvider>
       <Router>
         <div className="flex flex-col md:flex-row min-h-screen">
           <div className="flex-1">
             <div className="container p-4">
-              <h1 className="text-2xl font-bold mb-4">
-                Student Report Generator
-              </h1>
+              <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl font-bold">Student Report Generator</h1>
+                <div className="text-gray-600">Class: {selectedClass}</div>
+              </div>
               <Routes>
                 <Route path="/" element={<ReportTable />} />
-                
                 <Route path="/pdf" element={<PdfTemplate />} />
               </Routes>
             </div>
