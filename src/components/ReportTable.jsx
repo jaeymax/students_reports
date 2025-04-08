@@ -55,12 +55,12 @@ const ReportTable = () => {
         >
           Preview
         </button>
-        <button
+        {/* <button
           onClick={() => toPDF()}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Download PDF
-        </button>
+        </button> */}
       </div>
 
       <div>
@@ -159,6 +159,8 @@ const ReportTable = () => {
         report={{
           name: selectedStudent.name,
           scores: selectedStudent.scores,
+          classTeacherRemarks: selectedStudent.classTeacherRemarks,
+          class: selectedStudent.class,
         }}
       />
     </div>

@@ -8,7 +8,9 @@ import {
   StyleSheet,
   PDFViewer,
   Image,
+  pdf,
 } from "@react-pdf/renderer";
+import { getTotalRawScore } from "../utils/calculations";
 
 const styles = StyleSheet.create({
   page: {
@@ -91,6 +93,16 @@ const styles = StyleSheet.create({
 });
 
 const PDFPreviewModal = ({ isOpen, onClose, report }) => {
+  const handleDownload = async () => {
+    const blob = await pdf(<ReportDocument />).toBlob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${report?.name}-report.pdf`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   if (!isOpen) return null;
 
   const ReportDocument = () => (
@@ -106,7 +118,7 @@ const PDFPreviewModal = ({ isOpen, onClose, report }) => {
               Motto: Firm foundation & sound teaching our priority
             </Text>
             <Text style={styles.subtitle}>
-              BASIC SIX TO JHS TERMINAL REPORT
+              {report.class} TERMINAL REPORT
             </Text>
             <Text style={styles.subtitle}>TERM: ONE</Text>
             <View style={styles.dates}>
@@ -160,10 +172,10 @@ const PDFPreviewModal = ({ isOpen, onClose, report }) => {
 
         <View style={styles.remarks}>
           <Text style={{ marginBottom: 10 }}>
-            Total Raw Score (Four Core Subjects): _____________
+            Total Raw Score (Four Core Subjects): {getTotalRawScore(report)}
           </Text>
           <Text style={{ marginBottom: 10 }}>
-            Class teacher's remark: _________________________
+            Class teacher's remark: {report.classTeacherRemarks}
           </Text>
           <Text style={{ marginTop: 5 }}>
             HEADMASTER'S GENERAL REMARKS: Home supervision is very important and
@@ -180,12 +192,20 @@ const PDFPreviewModal = ({ isOpen, onClose, report }) => {
       <div className="bg-white rounded-lg w-full h-full md:w-4/5 md:h-5/6 flex flex-col">
         <div className="p-4 border-b flex justify-between items-center">
           <h2 className="text-xl font-semibold">Report Preview</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            Close
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={handleDownload}
+              className="text-white hover:bg-blue-600 bg-blue-500 p-2 rounded-md"
+            >
+              Download
+            </button>
+            <button
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              Close
+            </button>
+          </div>
         </div>
         <div className="flex-1">
           <PDFViewer width="100%" height="100%">

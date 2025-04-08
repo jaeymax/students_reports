@@ -29,6 +29,21 @@ export const getRemarkFromGrade = (grade) => {
   return remarks[grade] || "";
 };
 
+const CORE_SUBJECTS = [
+  "ENGLISH LANGUAGE",
+  "INTEGRATED SCIENCE",
+  "MATHEMATICS",
+  "SOCIAL STUDIES",
+];
+
+export const getTotalRawScore = (student) => {
+  if (!student?.scores) return 0;
+
+  return student.scores
+    .filter((score) => CORE_SUBJECTS.includes(score.subject))
+    .reduce((sum, score) => sum + (score.total || 0), 0);
+};
+
 export const calculatePositions = (students, subjectIndex) => {
   // Get all scores for the specific subject
   const subjectScores = students.map((student) => ({

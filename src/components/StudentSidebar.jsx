@@ -41,6 +41,7 @@ const StudentList = () => {
         students.filter((student) => student.id !== deletingStudent.id)
       );
       setDeletingStudent(null);
+      setSelectedStudent(null);
     }
   };
 
@@ -59,12 +60,12 @@ const StudentList = () => {
         <h2 className="text-lg font-semibold md:hidden">Student List</h2>
         <h2 className="text-lg font-semibold hidden md:block">Students</h2>
         <div className="flex gap-2">
-          <button
+          {/* <button
             onClick={saveToLocalStorage}
             className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 text-sm"
           >
             Save
-          </button>
+          </button> */}
           <button
             onClick={() => {
               setEditingStudent(null);

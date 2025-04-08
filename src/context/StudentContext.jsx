@@ -1,20 +1,31 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { subjects } from "../utils/constants";
+import { subjectsByClass } from "../utils/constants";
 import { calculatePositions } from "../utils/calculations";
 
-const StudentContext = createContext();
+// Export the context
+export const StudentContext = createContext();
 
 export const StudentProvider = ({ children }) => {
   const [students, setStudents] = useState(() => {
-    // Load initial students from localStorage
     const savedStudents = localStorage.getItem("students");
     return savedStudents ? JSON.parse(savedStudents) : [];
   });
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [selectedClass, setSelectedClass] = useState("");
+
+  const getSubjectsForClass = (className) => {
+    return subjectsByClass[className] || subjectsByClass.default;
+  };
+
+  useEffect(() => {
+    if (students.length > 0 && !selectedStudent) {
+      setSelectedStudent(students[0]);
+    }
+    localStorage.setItem("students", JSON.stringify(students));
+  }, [students]);
 
   const updatePositions = () => {
     setStudents((currentStudents) => {
-      // Remove the length check so positions are calculated even with one student
       const updatedStudents = currentStudents.map((student) => ({
         ...student,
         scores: student.scores.map((score, index) => ({
@@ -24,7 +35,6 @@ export const StudentProvider = ({ children }) => {
         })),
       }));
 
-      // Update selected student if needed
       if (selectedStudent) {
         const updatedSelected = updatedStudents.find(
           (s) => s.id === selectedStudent.id
@@ -37,9 +47,12 @@ export const StudentProvider = ({ children }) => {
   };
 
   const addStudent = (name) => {
+    const subjects = getSubjectsForClass(selectedClass);
     const newStudent = {
       id: Date.now(),
       name,
+      class: selectedClass,
+      classTeacherRemarks: "Satisfactory",
       scores: subjects.map((subject) => ({
         subject,
         classScore: "",
@@ -51,11 +64,14 @@ export const StudentProvider = ({ children }) => {
       })),
     };
 
-    setStudents((prevStudents) => [...prevStudents, newStudent]);
-    setSelectedStudent(newStudent);
+    setStudents((prevStudents) => [newStudent,...prevStudents]);
 
-    // Update positions after state is updated
+    setSelectedStudent(newStudent);
+    console.log("Selected student:", selectedStudent);
+    
+
     setTimeout(() => updatePositions(), 0);
+    
   };
 
   const updateStudentScores = (studentId, newScores) => {
@@ -72,7 +88,6 @@ export const StudentProvider = ({ children }) => {
       return updatedStudents;
     });
 
-    // Recalculate positions after score update
     setTimeout(() => updatePositions(), 0);
   };
 
@@ -87,6 +102,8 @@ export const StudentProvider = ({ children }) => {
         setStudents,
         selectedStudent,
         setSelectedStudent,
+        selectedClass,
+        setSelectedClass,
         addStudent,
         updateStudentScores,
         saveToLocalStorage,

@@ -65,28 +65,8 @@ const PdfTemplate = () => {
                     </span>
                   </td>
                   <td className="border border-black p-2">
-                    {/* <input
-                      type="number"
-                      min="0"
-                      max="50"
-                      value={score.classScore}
-                      onChange={(e) =>
-                        handleScoreChange(index, "classScore", e.target.value)
-                      }
-                      className="w-16 md:w-20 p-1 border border-black"
-                    /> */}
                   </td>
                   <td className="border border-black p-2">
-                    {/* <input
-                      type="number"
-                      min="0"
-                      max="50"
-                      value={score.examScore}
-                      onChange={(e) =>
-                        handleScoreChange(index, "examScore", e.target.value)
-                      }
-                      className="w-16 md:w-20 p-1 border border-black"
-                    /> */}
                   </td>
                   <td className="border border-black p-2">{score.total}</td>
                   <td className="border border-black p-2">{score.grade}</td>

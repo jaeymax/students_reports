@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useStudent } from "../context/StudentContext";
 
 const IntroPage = ({ onClassSelect }) => {
-  const [selectedClass, setSelectedClass] = useState("");
+  const { selectedClass, setSelectedClass } = useStudent();
 
   const classes = [
     "BASIC 4",
