@@ -121,7 +121,7 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
     URL.revokeObjectURL(url);
   };
 
-  console.log(report);
+  
   if (!isOpen) return null;
 
   const ReportDocument = () => {

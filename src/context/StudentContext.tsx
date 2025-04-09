@@ -69,14 +69,14 @@ export const StudentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         })),
       }));
 
-      if (selectedStudent) {
-        const updatedSelected = updatedStudents.find(
-          (s: Student) => s.id === selectedStudent.id
-        );
-        if (updatedSelected) {
-          setSelectedStudent(updatedSelected);
-        }
-      }
+      // if (selectedStudent) {
+      //   const updatedSelected = updatedStudents.find(
+      //     (s: Student) => s.id === selectedStudent.id
+      //   );
+      //   if (updatedSelected) {
+      //     setSelectedStudent(updatedSelected);
+      //   }
+      // }
 
       return updatedStudents;
     });
@@ -121,6 +121,7 @@ export const StudentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setStudents((prevStudents: NewStudent[]): NewStudent[] => [newStudent, ...prevStudents]);
 
     setSelectedStudent(newStudent);
+    console.log("new student", newStudent);
     console.log("Selected student:", selectedStudent);
 
     setTimeout((): void => updatePositions(), 0);

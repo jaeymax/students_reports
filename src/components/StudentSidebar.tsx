@@ -21,6 +21,9 @@ const StudentList = () => {
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [deletingStudent, setDeletingStudent] = useState<Student | null>(null);
 
+  console.log('selected student 2', selectedStudent);
+  
+
   const handleAddStudent = (studentName:string) => {
     addStudent(studentName);
     setIsModalOpen(false);
