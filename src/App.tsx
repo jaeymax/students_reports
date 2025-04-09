@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ReportTable from "./components/ReportTable";
 import StudentSidebar from "./components/StudentSidebar";
-import { StudentProvider, useStudent } from "./context/StudentContext";
-import PdfTemplate from "./components/PdfTemplate";
+import { StudentProvider } from "./context/StudentContext";
 import IntroPage from "./components/IntroPage";
 
-function AppContent({ selectedClass }) {
-  const { setSelectedClass } = useStudent();
-
-  // useEffect(() => {
-  //   setSelectedClass(selectedClass);
-  // }, [selectedClass, setSelectedClass]);
-
+function AppContent({ selectedClass }: { selectedClass: string }) {
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
       <div className="flex-1">
@@ -24,7 +17,6 @@ function AppContent({ selectedClass }) {
           </div>
           <Routes>
             <Route path="/" element={<ReportTable />} />
-            <Route path="/pdf" element={<PdfTemplate />} />
           </Routes>
         </div>
       </div>
@@ -36,16 +28,16 @@ function AppContent({ selectedClass }) {
 function App() {
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
 
-  if (!selectedClass) {
-    return <IntroPage onClassSelect={setSelectedClass} />;
-  }
-
   return (
-
-      <Router>
-        <AppContent selectedClass={selectedClass} />
-      </Router>
-  
+    <StudentProvider>
+      {!selectedClass ? (
+        <IntroPage onClassSelect={setSelectedClass} />
+      ) : (
+        <Router>
+          <AppContent selectedClass={selectedClass} />
+        </Router>
+      )}
+    </StudentProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useStudent } from "../context/StudentContext";
 import AddStudentModal from "./AddStudentModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
@@ -12,21 +12,24 @@ const StudentList = () => {
     selectedStudent,
     setSelectedStudent,
     addStudent,
-    saveToLocalStorage,
   } = useStudent();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingStudent, setEditingStudent] = useState(null);
-  const [deletingStudent, setDeletingStudent] = useState(null);
+  interface Student {
+    id: string;
+    name: string;
+  }
+  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
+  const [deletingStudent, setDeletingStudent] = useState<Student | null>(null);
 
-  const handleAddStudent = (studentName) => {
+  const handleAddStudent = (studentName:string) => {
     addStudent(studentName);
     setIsModalOpen(false);
   };
 
-  const handleEditStudent = (studentName) => {
+  const handleEditStudent = (studentName:string) => {
     setStudents(
       students.map((student) =>
-        student.id === editingStudent.id
+        student.id === editingStudent?.id
           ? { ...student, name: studentName }
           : student
       )
@@ -45,12 +48,12 @@ const StudentList = () => {
     }
   };
 
-  const openEditModal = (student) => {
+  const openEditModal = (student:any) => {
     setEditingStudent(student);
     setIsModalOpen(true);
   };
 
-  const handleStudentClick = (student) => {
+  const handleStudentClick = (student:any) => {
     setSelectedStudent(student);
   };
 
@@ -130,7 +133,7 @@ const StudentList = () => {
         isOpen={!!deletingStudent}
         onClose={() => setDeletingStudent(null)}
         onConfirm={handleDeleteConfirm}
-        studentName={deletingStudent?.name}
+        studentName={deletingStudent?.name ?? ""}
       />
     </div>
   );

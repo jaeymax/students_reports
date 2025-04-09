@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+
 import { useStudent } from "../context/StudentContext";
 
-const IntroPage = ({ onClassSelect }) => {
+const IntroPage = ({ onClassSelect }: { onClassSelect: (selectedClass: string) => void }) => {
   const { selectedClass, setSelectedClass } = useStudent();
 
   const classes = [
@@ -13,7 +13,7 @@ const IntroPage = ({ onClassSelect }) => {
     "BASIC 9",
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (selectedClass) {
       onClassSelect(selectedClass);
@@ -65,7 +65,7 @@ const IntroPage = ({ onClassSelect }) => {
           <div className="relative">
             <select
               value={selectedClass}
-              onChange={(e) => setSelectedClass(e.target.value)}
+              onChange={(e) => setSelectedClass(e.target.value as "BASIC 4" | "BASIC 5" | "BASIC 6" | "BASIC 7" | "BASIC 8" | "BASIC 9" | "")}
               className="block w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             >

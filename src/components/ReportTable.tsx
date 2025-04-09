@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useStudent } from "../context/StudentContext";
-import { usePDF } from "react-to-pdf";
 import PDFPreviewModal from "./PDFPreviewModal";
 import {
   calculateTotal,
@@ -11,12 +10,27 @@ import {
 const ReportTable = () => {
   const { selectedStudent, updateStudentScores } = useStudent();
   const [showPreview, setShowPreview] = useState(false);
-  const { toPDF, targetRef } = usePDF({
-    method: "save",
-    filename: `${selectedStudent?.name}-report.pdf`,
-  });
+  
 
-  const handleScoreChange = (index, field, value) => {
+  // interface Score {
+  //   subject: string;
+  //   classScore: string;
+  //   examScore: string;
+  //   total: number;
+  //   grade: string;
+  //   position: string;
+  //   remark: string;
+  // }
+
+  interface ScoreField {
+    field: 'classScore' | 'examScore';
+  }
+
+  const handleScoreChange = (
+    index: number,
+    field: ScoreField['field'],
+    value: string
+  ): void => {
     if (!selectedStudent) return;
 
     const newScores = [...selectedStudent.scores];
@@ -44,6 +58,7 @@ const ReportTable = () => {
     );
   }
 
+  
 
 
   return (
@@ -55,12 +70,7 @@ const ReportTable = () => {
         >
           Preview
         </button>
-        {/* <button
-          onClick={() => toPDF()}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Download PDF
-        </button> */}
+
       </div>
 
       <div>
@@ -101,7 +111,7 @@ const ReportTable = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {selectedStudent.scores.map((score, index) => (
+              {selectedStudent.scores.map((score:any, index:any) => (
                 <tr key={score.subject} className="hover:bg-gray-50">
                   <td className="px-2 md:px-6 py-2 md:py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     <span className="hidden md:inline">{score.subject}</span>
@@ -154,7 +164,7 @@ const ReportTable = () => {
 
       <PDFPreviewModal
         isOpen={showPreview}
-        ref={targetRef}
+    
         onClose={() => setShowPreview(false)}
         report={{
           name: selectedStudent.name,

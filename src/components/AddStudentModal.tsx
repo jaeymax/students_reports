@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
 
+interface AddStudentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (name: string) => void;
+  initialValue?: string;
+  mode?: 'add' | 'edit';
+}
+
 const AddStudentModal = ({
   isOpen,
   onClose,
   onSubmit,
   initialValue = "",
   mode = "add",
-}) => {
+}: AddStudentModalProps) => {
   const [studentName, setStudentName] = useState(initialValue);
 
   useEffect(() => {
     setStudentName(initialValue);
   }, [initialValue]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (studentName.trim()) {
       onSubmit(studentName);
