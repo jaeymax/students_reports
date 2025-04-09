@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useStudent } from "../context/StudentContext";
+import { useStudent } from "../context/StudentContext.tsx";
 import PDFPreviewModal from "./PDFPreviewModal";
 import {
   calculateTotal,
   calculateGrade,
   getRemarkFromGrade,
-} from "../utils/calculations";
+} from "../utils/calculations.ts";
 
 const ReportTable = () => {
   const { selectedStudent, updateStudentScores } = useStudent();

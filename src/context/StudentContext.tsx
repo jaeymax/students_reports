@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { subjectsByClass } from "../utils/constants";
-import { calculatePositions } from "../utils/calculations";
+import { subjectsByClass } from "../utils/constants.ts";
+import { calculatePositions } from "../utils/calculations.ts";
 
 // Export the context
 interface StudentContextType {

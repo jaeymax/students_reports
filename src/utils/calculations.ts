@@ -22,14 +22,14 @@ interface GradeRange {
 type Grade = keyof GradeRange;
 
 export const calculateGrade = (total: number): Grade => {
-  if (total >= 80) return "1";
-  if (total >= 75) return "2";
+  if (total >= 90) return "1";
+  if (total >= 80) return "2";
   if (total >= 70) return "3";
-  if (total >= 65) return "4";
-  if (total >= 60) return "5";
-  if (total >= 50) return "6";
-  if (total >= 40) return "7";
-  if (total >= 30) return "8";
+  if (total >= 60) return "4";
+  if (total >= 50) return "5";
+  if (total >= 40) return "6";
+  if (total >= 30) return "7";
+  if (total >= 20) return "8";
   return "9";
 };
 
@@ -50,12 +50,12 @@ export const getRemarkFromGrade = (grade: Grade): string => {
     1: "Excellent",
     2: "Very Good",
     3: "Good",
-    4: "Credit",
-    5: "Pass",
-    6: "Pass",
-    7: "Pass",
-    8: "Pass",
-    9: "Fail",
+    4: "High Average",
+    5: "Average",
+    6: "Low Average",
+    7: "Low",
+    8: "Lower",
+    9: "Lowest",
   };
   return remarks[grade] || "";
 };

@@ -1,5 +1,5 @@
-import  { useState } from "react";
-import { useStudent } from "../context/StudentContext";
+import { useState } from "react";
+import { useStudent } from "../context/StudentContext.tsx";
 import AddStudentModal from "./AddStudentModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import { CiTrash } from "react-icons/ci";
@@ -21,15 +21,14 @@ const StudentList = () => {
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [deletingStudent, setDeletingStudent] = useState<Student | null>(null);
 
-  console.log('selected student 2', selectedStudent);
-  
+  console.log("selected student 2", selectedStudent);
 
-  const handleAddStudent = (studentName:string) => {
+  const handleAddStudent = (studentName: string) => {
     addStudent(studentName);
     setIsModalOpen(false);
   };
 
-  const handleEditStudent = (studentName:string) => {
+  const handleEditStudent = (studentName: string) => {
     setStudents(
       students.map((student) =>
         student.id === editingStudent?.id
@@ -51,12 +50,12 @@ const StudentList = () => {
     }
   };
 
-  const openEditModal = (student:any) => {
+  const openEditModal = (student: any) => {
     setEditingStudent(student);
     setIsModalOpen(true);
   };
 
-  const handleStudentClick = (student:any) => {
+  const handleStudentClick = (student: any) => {
     setSelectedStudent(student);
   };
 

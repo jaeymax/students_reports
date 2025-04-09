@@ -1,5 +1,5 @@
 
-import { useStudent } from "../context/StudentContext";
+import { useStudent } from "../context/StudentContext.tsx";
 
 const IntroPage = ({ onClassSelect }: { onClassSelect: (selectedClass: string) => void }) => {
   const { selectedClass, setSelectedClass } = useStudent();

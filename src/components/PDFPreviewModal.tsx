@@ -10,6 +10,8 @@ import {
 } from "@react-pdf/renderer";
 import { getTotalRawScore } from "../utils/calculations";
 import { Basic45Report } from "./Basic45ReportTemplate";
+import { useStudent } from "../context/StudentContext";
+import JSZip from "jszip";
 
 const styles = StyleSheet.create({
   page: {
@@ -111,8 +113,10 @@ interface PDFPreviewModalProps {
 }
 
 const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
+  const { students } = useStudent();
+
   const handleDownload = async () => {
-    const blob = await pdf(<ReportDocument />).toBlob();
+    const blob = await pdf(<ReportDocument report={report} />).toBlob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -121,11 +125,44 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
     URL.revokeObjectURL(url);
   };
 
-  
+  const handleBatchDownload = async () => {
+    try {
+      const zip = new JSZip();
+      
+      // Create PDFs for all students
+      for (const student of students) {
+        const studentReport = {
+          name: student.name,
+          class: student.class,
+          scores: student.scores,
+          classTeacherRemarks: student.classTeacherRemarks,
+        };
+
+        const ReportDoc = student.class === "BASIC 4" || student.class === "BASIC 5" 
+          ? <Basic45Report report={studentReport} />
+          : <ReportDocument report={studentReport} />;
+
+        const blob = await pdf(ReportDoc).toBlob();
+        zip.file(`${student.name}-report.pdf`, blob);
+      }
+
+      // Generate and download zip file
+      const content = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(content);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${report.class}-student-reports.zip`;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error generating PDFs:", error);
+      // You might want to show an error message to the user here
+    }
+  };
+
   if (!isOpen) return null;
 
-  const ReportDocument = () => {
-    
+  const ReportDocument = ({ report }: { report: PDFPreviewModalProps["report"] }) => {
     if (report.class === "BASIC 4" || report.class === "BASIC 5") {
       return <Basic45Report report={report} />;
     }
@@ -147,8 +184,14 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
               </Text>
               <Text style={styles.subtitle}>TERM: TWO</Text>
               <View style={styles.dates}>
-                <Text>VACATION DATE: 17TH APRIL, 2025</Text>
-                <Text>RE-OPENING DATE: 5TH MAY, 2025</Text>
+                <Text>
+                  VACATION DATE:{" "}
+                  <Text style={{ fontWeight: "bold" }}>17TH APRIL, 2025</Text>
+                </Text>
+                <Text>
+                  RE-OPENING DATE:{" "}
+                  <Text style={{ fontWeight: "bold" }}>5TH MAY, 2025</Text>
+                </Text>
               </View>
             </View>
           </View>
@@ -220,10 +263,16 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
           <h2 className="text-xl font-semibold">Report Preview</h2>
           <div className="flex gap-4">
             <button
+              onClick={handleBatchDownload}
+              className="text-white hover:bg-green-600 bg-green-500 p-2 rounded-md"
+            >
+              Download All
+            </button>
+            <button
               onClick={handleDownload}
               className="text-white hover:bg-blue-600 bg-blue-500 p-2 rounded-md"
             >
-              Download
+              Download Current
             </button>
             <button
               onClick={onClose}
@@ -235,7 +284,7 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
         </div>
         <div className="flex-1">
           <PDFViewer width="100%" height="100%">
-            <ReportDocument />
+            <ReportDocument report={report} />
           </PDFViewer>
         </div>
       </div>

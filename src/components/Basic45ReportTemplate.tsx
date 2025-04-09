@@ -137,8 +137,14 @@ export const Basic45Report = ({ report }: Basic45ReportProps) => (
           <Text style={styles.subtitle}>{report.class} TERMINAL REPORT</Text>
           <Text style={styles.subtitle}>TERM: TWO</Text>
           <View style={styles.dates}>
-            <Text>VACATION DATE: 17TH APRIL, 2025</Text>
-            <Text>RE-OPENING DATE: 5TH MAY, 2025</Text>
+            <Text>
+              VACATION DATE:{" "}
+              <Text style={{ fontWeight: "bold" }}>17TH APRIL, 2025</Text>
+            </Text>
+            <Text>
+              RE-OPENING DATE:{" "}
+              <Text style={{ fontWeight: "bold" }}>5TH MAY, 2025</Text>
+            </Text>
           </View>
         </View>
       </View>
@@ -204,9 +210,7 @@ export const Basic45Report = ({ report }: Basic45ReportProps) => (
 
         <Text style={styles.sectionTitle}>CREATIVITY AND INNOVATION (CI)</Text>
         <View style={styles.domainGrid}>
-          <Text>
-            Able to think about new ways of solving problems 4
-          </Text>
+          <Text>Able to think about new ways of solving problems 4</Text>
           <Text>
             Develops simple tools, procedures and technologies for addressing
             problems 3
@@ -223,8 +227,7 @@ export const Basic45Report = ({ report }: Basic45ReportProps) => (
         <View style={styles.domainGrid}>
           <Text>
             Articulate thoughts and ideas effectively using oral, written and
-            nonverbal communication skills in a variety of forms and
-            contexts 3
+            nonverbal communication skills in a variety of forms and contexts 3
           </Text>
           <Text>
             Listen effectively to decipher meaning, including knowledge, values,
@@ -244,9 +247,7 @@ export const Basic45Report = ({ report }: Basic45ReportProps) => (
           PERSONAL DEVELOPMENT AND LEADERSHIP (PL)
         </Text>
         <View style={styles.domainGrid}>
-          <Text>
-            Improving in self-awareness and self-esteem 4
-          </Text>
+          <Text>Improving in self-awareness and self-esteem 4</Text>
           <Text>
             Shows ability to identify and develop talents, to fulfil dreams and
             aspirations 3
@@ -258,8 +259,7 @@ export const Basic45Report = ({ report }: Basic45ReportProps) => (
             others towards a goal 4
           </Text>
           <Text>
-            Leverages the strengths of others to accomplish a common
-            goal 2
+            Leverages the strengths of others to accomplish a common goal 2
           </Text>
         </View>
       </View>
@@ -269,13 +269,22 @@ export const Basic45Report = ({ report }: Basic45ReportProps) => (
         <Text style={{ marginBottom: 1 }}>
           CLASS TEACHER'S REMARKS: {report.classTeacherRemarks}
         </Text>
-        <Text style={{ marginTop: 3}}>
-          <Text style={{ fontWeight: "bold", textDecoration: "underline", marginRight:20 }}>
+        <Text style={{ marginTop: 3 }}>
+          <Text
+            style={{
+              fontWeight: "bold",
+              textDecoration: "underline",
+              marginRight: 20,
+            }}
+          >
             Director's remarks:
           </Text>
-          <Text style={{fontStyle: "italic"}} >  Home supervision is very important and
-          necessary. Parents and Guardians should kindly supervise their wards'
-          homework and give feedback.</Text>
+          <Text style={{ fontStyle: "italic" }}>
+            {" "}
+            Home supervision is very important and necessary. Parents and
+            Guardians should kindly supervise their wards' homework and give
+            feedback.
+          </Text>
         </Text>
       </View>
     </Page>
