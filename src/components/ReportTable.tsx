@@ -7,10 +7,70 @@ import {
   getRemarkFromGrade,
 } from "../utils/calculations.ts";
 
+
+export const ValidationModal = ({
+  isOpen,
+  onClose,
+  incompleteStudents,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  incompleteStudents: string[];
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg p-6 max-w-md w-full">
+        <h3 className="text-lg font-semibold mb-4">Incomplete Reports</h3>
+        <p className="mb-4 text-gray-600">
+          The following students have incomplete reports:
+        </p>
+        <ul className="list-disc pl-5 mb-4 text-gray-600">
+          {incompleteStudents.map((student) => (
+            <li key={student}>{student}</li>
+          ))}
+        </ul>
+        <p className="mb-4 text-gray-600">
+          Please complete all reports before downloading.
+        </p>
+        <div className="flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ReportTable = () => {
-  const { selectedStudent, updateStudentScores } = useStudent();
+  const { selectedStudent, updateStudentScores, students } = useStudent();
   const [showPreview, setShowPreview] = useState(false);
-  
+
+  const [showValidationModal, setShowValidationModal] = useState(false);
+  const [incompleteStudents, setIncompleteStudents] = useState<string[]>([]);
+
+  // Add validation helper function
+  const validateReports = () => {
+    const incomplete = students
+      .filter(
+        (student) =>
+          !student.scores.every(
+            (score: { classScore: string | number; examScore: string | number; }) =>
+              score.classScore !== "" &&
+              score.examScore !== "" &&
+              !isNaN(Number(score.classScore)) &&
+              !isNaN(Number(score.examScore))
+          )
+      )
+      .map((student) => student.name);
+
+    return incomplete;
+  };
 
   // interface Score {
   //   subject: string;
@@ -23,12 +83,12 @@ const ReportTable = () => {
   // }
 
   interface ScoreField {
-    field: 'classScore' | 'examScore';
+    field: "classScore" | "examScore";
   }
 
   const handleScoreChange = (
     index: number,
-    field: ScoreField['field'],
+    field: ScoreField["field"],
     value: string
   ): void => {
     if (!selectedStudent) return;
@@ -58,24 +118,33 @@ const ReportTable = () => {
     );
   }
 
-  
+  const handlePreview = () => {
+    const incomplete = validateReports();
 
+    if (incomplete.length > 0) {
+      setIncompleteStudents(incomplete);
+      setShowValidationModal(true);
+      return;
+    }
+
+    setShowPreview(true)
+  };
 
   return (
     <div className="w-full p-4">
-      <div className="flex justify-end gap-2 mb-4">
+      <div className="flex justify-between items-center gap-2 mb-4 text-gray-600">
+        <p>
+          {selectedStudent.name} - {selectedStudent.class}
+        </p>
         <button
-          onClick={() => setShowPreview(true)}
+          onClick={handlePreview}
           className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
         >
           Preview
         </button>
-
       </div>
 
       <div>
-       
-
         <div className="relative overflow-x-auto md:overflow-hidden shadow-sm rounded-lg border border-gray-300">
           {/* Show scroll indicator on mobile */}
           <div className="absolute right-0 top-1/2 md:hidden bg-gradient-to-l from-gray-100 to-transparent w-8 h-8 rounded-full animate-pulse"></div>
@@ -111,7 +180,7 @@ const ReportTable = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {selectedStudent.scores.map((score:any, index:any) => (
+              {selectedStudent.scores.map((score: any, index: any) => (
                 <tr key={score.subject} className="hover:bg-gray-50">
                   <td className="px-2 md:px-6 py-2 md:py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     <span className="hidden md:inline">{score.subject}</span>
@@ -164,7 +233,6 @@ const ReportTable = () => {
 
       <PDFPreviewModal
         isOpen={showPreview}
-    
         onClose={() => setShowPreview(false)}
         report={{
           name: selectedStudent.name,
@@ -172,6 +240,11 @@ const ReportTable = () => {
           classTeacherRemarks: selectedStudent.classTeacherRemarks,
           class: selectedStudent.class,
         }}
+      />
+      <ValidationModal
+        isOpen={showValidationModal}
+        onClose={() => setShowValidationModal(false)}
+        incompleteStudents={incompleteStudents}
       />
     </div>
   );

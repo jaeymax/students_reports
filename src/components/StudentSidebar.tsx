@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useStudent } from "../context/StudentContext.tsx";
 import AddStudentModal from "./AddStudentModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
-import { CiTrash } from "react-icons/ci";
-import { CiEdit } from "react-icons/ci";
+import { CiTrash, CiEdit, CiCircleCheck, CiWarning } from "react-icons/ci";
 
 const StudentList = () => {
   const {
@@ -15,13 +14,13 @@ const StudentList = () => {
   } = useStudent();
   const [isModalOpen, setIsModalOpen] = useState(false);
   interface Student {
-    id: string;
+    id: number;
     name: string;
   }
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [deletingStudent, setDeletingStudent] = useState<Student | null>(null);
 
-  console.log("selected student 2", selectedStudent);
+ 
 
   const handleAddStudent = (studentName: string) => {
     addStudent(studentName);
@@ -57,6 +56,16 @@ const StudentList = () => {
 
   const handleStudentClick = (student: any) => {
     setSelectedStudent(student);
+  };
+
+  const isReportComplete = (student: any) => {
+    return student.scores.every(
+      (score: any) =>
+        score.classScore !== "" &&
+        score.examScore !== "" &&
+        !isNaN(score.classScore) &&
+        !isNaN(score.examScore)
+    );
   };
 
   return (
@@ -95,7 +104,20 @@ const StudentList = () => {
               }`}
             onClick={() => handleStudentClick(student)}
           >
-            <span className="font-medium">{student.name}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-medium">{student.name}</span>
+              {isReportComplete(student) ? (
+                <CiCircleCheck
+                  className="text-green-500 text-xl"
+                  title="Report Complete"
+                />
+              ) : (
+                <CiWarning
+                  className="text-red-500 text-xl"
+                  title="Report Incomplete"
+                />
+              )}
+            </div>
             <div className="flex space-x-3">
               <button
                 onClick={(e) => {

@@ -3,7 +3,10 @@
 //   examScore: number;
 // }
 
-export const calculateTotal = (classScore: number, examScore: number): number => {
+export const calculateTotal = (
+  classScore: number,
+  examScore: number
+): number => {
   return classScore + examScore;
 };
 
@@ -81,57 +84,56 @@ export const getTotalRawScore = (student: Student): number => {
   if (!student?.scores) return 0;
 
   return student.scores
-    .filter((score) => CORE_SUBJECTS.includes(score.subject || ''))
+    .filter((score) => CORE_SUBJECTS.includes(score.subject || ""))
     .reduce((sum, score) => sum + (score.total || 0), 0);
 };
 
-interface PositionMap extends Map<string, string> {}
+//interface PositionMap extends Map<string, string> {}
 
 export const calculatePositions = (
   students: { id: string; scores: { total: number }[] }[],
   subjectIndex: number
-): PositionMap => {
-  // Get all scores for the specific subject
-  const subjectScores: StudentScore[] = students.map((student) => ({
-    id: student.id,
-    total: student.scores[subjectIndex].total,
-  }));
+): Map<string, string> => {
+  const positions = new Map<string, string>();
+
+  // Filter out students with invalid scores first
+  const validScores = students
+    .map((student) => ({
+      id: student.id,
+      total: student.scores[subjectIndex]?.total || 0,
+    }))
+    .filter((score) => !isNaN(score.total)); // Filter out NaN values
 
   // Sort by total score in descending order
-  const sortedScores: StudentScore[] = subjectScores.sort((a, b) => (b.total || 0) - (a.total || 0));
+  const sortedScores = validScores.sort((a, b) => b.total - a.total);
 
-  // Create position mapping
-  const positions: PositionMap = new Map();
-  let currentPosition: number = 1;
-  let currentScore: number = -1;
-  let samePositionCount: number = 0;
+  let currentPosition = 1;
+  let currentScore = -1;
+  let samePositionCount = 0;
 
   sortedScores.forEach((score, index) => {
     if (score.total === currentScore) {
-      // Same score gets same position
       samePositionCount++;
     } else {
       currentPosition = index + 1;
-      currentScore = score.total ?? 0;
+      currentScore = score.total;
       samePositionCount = 0;
     }
-    if (score.id) {
-      positions.set(
-        score.id,
-        `${currentPosition}${getPositionSuffix(currentPosition)}`
-      );
+    positions.set(
+      score.id,
+      `${currentPosition}${getPositionSuffix(currentPosition)}`
+    );
+  });
+
+  // Set position for any remaining students (those with NaN or invalid scores)
+  students.forEach((student) => {
+    if (!positions.has(student.id)) {
+      positions.set(student.id, "-");
     }
   });
 
   return positions;
 };
-
-// interface PositionSuffix {
-//   "st": string;
-//   "nd": string;
-//   "rd": string;
-//   "th": string;
-// }
 
 const getPositionSuffix = (position: number): string => {
   if (position > 10 && position < 20) return "th";

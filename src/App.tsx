@@ -7,13 +7,17 @@ import { StudentProvider } from "./context/StudentContext";
 import IntroPage from "./components/IntroPage";
 
 function AppContent({ selectedClass }: { selectedClass: string }) {
+
+  
+  console.log("Selected class:", selectedClass);
+  
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
       <div className="flex-1">
         <div className="container p-4">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">Student Report Generator</h1>
-            <div className="text-gray-600">Class: {selectedClass}</div>
+            {/* <h1 className="text-2xl font-bold text-center">Student Report Generator</h1> */}
+            {/* <div className="text-gray-600">Class: {selectedClass}</div> */}
           </div>
           <Routes>
             <Route path="/" element={<ReportTable />} />

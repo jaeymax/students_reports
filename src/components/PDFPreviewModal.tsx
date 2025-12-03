@@ -1,3 +1,4 @@
+
 import {
   Document,
   Page,
@@ -16,7 +17,7 @@ import JSZip from "jszip";
 const styles = StyleSheet.create({
   page: {
     padding: "40px",
-    backgroundColor: "#93c5fd",
+    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
@@ -112,8 +113,12 @@ interface PDFPreviewModalProps {
   };
 }
 
+
+
+
 const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
   const { students } = useStudent();
+  
 
   const handleDownload = async () => {
     const blob = await pdf(<ReportDocument report={report} />).toBlob();
@@ -126,21 +131,31 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
   };
 
   const handleBatchDownload = async () => {
+    
+
     try {
       const zip = new JSZip();
-      
+
       // Create PDFs for all students
       for (const student of students) {
         const studentReport = {
           name: student.name,
           class: student.class,
-          scores: student.scores,
+          scores: student.scores.map(score => ({
+            ...score,
+            classScore: Number(score.classScore),
+            examScore: Number(score.examScore),
+            total: Number(score.total)
+          })),
           classTeacherRemarks: student.classTeacherRemarks,
         };
 
-        const ReportDoc = student.class === "BASIC 4" || student.class === "BASIC 5" 
-          ? <Basic45Report report={studentReport} />
-          : <ReportDocument report={studentReport} />;
+        const ReportDoc =
+          student.class === "BASIC 4" || student.class === "BASIC 5" ? (
+            <Basic45Report report={studentReport} />
+          ) : (
+            <ReportDocument report={studentReport} />
+          );
 
         const blob = await pdf(ReportDoc).toBlob();
         zip.file(`${student.name}-report.pdf`, blob);
@@ -162,7 +177,11 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
 
   if (!isOpen) return null;
 
-  const ReportDocument = ({ report }: { report: PDFPreviewModalProps["report"] }) => {
+  const ReportDocument = ({
+    report,
+  }: {
+    report: PDFPreviewModalProps["report"];
+  }) => {
     if (report.class === "BASIC 4" || report.class === "BASIC 5") {
       return <Basic45Report report={report} />;
     }
@@ -171,7 +190,10 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
       <Document>
         <Page size="A4" style={styles.page}>
           <View style={styles.header}>
-            <Image src="./school-logo.jpg" style={styles.logo} />
+            <Image
+              src={window.location.origin + "/school-logo.jpg"}
+              style={styles.logo}
+            />
             <View style={styles.headerText}>
               <Text style={styles.title}>
                 BRILLIANT KIDS EDUCATIONAL INSTITUTE
@@ -182,15 +204,15 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
               <Text style={styles.subtitle}>
                 {report.class} TERMINAL REPORT
               </Text>
-              <Text style={styles.subtitle}>TERM: TWO</Text>
+              <Text style={styles.subtitle}>TERM: THREE</Text>
               <View style={styles.dates}>
                 <Text>
                   VACATION DATE:{" "}
-                  <Text style={{ fontWeight: "bold" }}>17TH APRIL, 2025</Text>
+                  <Text style={{ fontWeight: "bold" }}>8TH AUGUST, 2025</Text>
                 </Text>
                 <Text>
                   RE-OPENING DATE:{" "}
-                  <Text style={{ fontWeight: "bold" }}>5TH MAY, 2025</Text>
+                  <Text style={{ fontWeight: "bold" }}>1ST SEPTEMBER, 2025</Text>
                 </Text>
               </View>
             </View>
@@ -288,6 +310,7 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
           </PDFViewer>
         </div>
       </div>
+      
     </div>
   );
 };

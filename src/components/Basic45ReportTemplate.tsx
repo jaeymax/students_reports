@@ -25,10 +25,11 @@ interface Basic45ReportProps {
   };
 }
 
+//#93c5fd
 const styles = StyleSheet.create({
   page: {
     padding: "40px",
-    backgroundColor: "#93c5fd",
+    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
@@ -128,22 +129,25 @@ export const Basic45Report = ({ report }: Basic45ReportProps) => (
     <Page size="A4" style={styles.page}>
       {/* Header Section */}
       <View style={styles.header}>
-        <Image src="./school-logo.jpg" style={styles.logo} />
+        <Image
+          src={window.location.origin + "/school-logo.jpg"}
+          style={styles.logo}
+        />
         <View style={styles.headerText}>
           <Text style={styles.title}>BRILLIANT KIDS EDUCATIONAL INSTITUTE</Text>
           <Text style={styles.motto}>
             Motto: Firm foundation & sound teaching our priority
           </Text>
           <Text style={styles.subtitle}>{report.class} TERMINAL REPORT</Text>
-          <Text style={styles.subtitle}>TERM: TWO</Text>
+          <Text style={styles.subtitle}>TERM: THREE</Text>
           <View style={styles.dates}>
             <Text>
               VACATION DATE:{" "}
-              <Text style={{ fontWeight: "bold" }}>17TH APRIL, 2025</Text>
+              <Text style={{ fontWeight: "bold" }}>8TH AUGUST, 2025</Text>
             </Text>
             <Text>
               RE-OPENING DATE:{" "}
-              <Text style={{ fontWeight: "bold" }}>5TH MAY, 2025</Text>
+              <Text style={{ fontWeight: "bold" }}>1ST SEPTEMBER, 2025</Text>
             </Text>
           </View>
         </View>
