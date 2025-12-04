@@ -31,7 +31,6 @@ export const mockStudentsByClass = {
     "BOAH NATHANIEL"
   ],
   "BASIC 6": [
-    "ENOCH OTOO",
     "KEZIAH ANDOH",
     "EMMANUEL YAWSON DZACKA",
     "MIRACLE LINDA",

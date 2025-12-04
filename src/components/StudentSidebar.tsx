@@ -13,14 +13,13 @@ const StudentList = () => {
     addStudent,
   } = useStudent();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false);
   interface Student {
     id: number;
     name: string;
   }
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [deletingStudent, setDeletingStudent] = useState<Student | null>(null);
-
- 
 
   const handleAddStudent = (studentName: string) => {
     addStudent(studentName);
@@ -49,6 +48,12 @@ const StudentList = () => {
     }
   };
 
+  const handleDeleteAllConfirm = () => {
+    setStudents([]);
+    setIsDeleteAllModalOpen(false);
+    setSelectedStudent(null);
+  };
+
   const openEditModal = (student: any) => {
     setEditingStudent(student);
     setIsModalOpen(true);
@@ -74,12 +79,6 @@ const StudentList = () => {
         <h2 className="text-lg font-semibold md:hidden">Student List</h2>
         <h2 className="text-lg font-semibold hidden md:block">Students</h2>
         <div className="flex gap-2">
-          {/* <button
-            onClick={saveToLocalStorage}
-            className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 text-sm"
-          >
-            Save
-          </button> */}
           <button
             onClick={() => {
               setEditingStudent(null);
@@ -88,6 +87,12 @@ const StudentList = () => {
             className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-sm"
           >
             Add Student
+          </button>
+          <button
+            onClick={() => setIsDeleteAllModalOpen(true)}
+            className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 text-sm"
+          >
+            Delete All Students
           </button>
         </div>
       </div>
@@ -158,6 +163,13 @@ const StudentList = () => {
         onClose={() => setDeletingStudent(null)}
         onConfirm={handleDeleteConfirm}
         studentName={deletingStudent?.name ?? ""}
+      />
+
+      <DeleteConfirmationModal
+        isOpen={isDeleteAllModalOpen}
+        onClose={() => setIsDeleteAllModalOpen(false)}
+        onConfirm={handleDeleteAllConfirm}
+        studentName="all students"
       />
     </div>
   );
