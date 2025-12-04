@@ -8,8 +8,8 @@ export const mockStudentsByClass = {
     "ALISHA",
     "ADIPA",
     "ADIEPENA",
-    "GLORIA",
-    "SARAH"
+    "GLORY",
+    "LYDIA"
   ],
   "BASIC 5": [
     "AYISI JOSEPH",

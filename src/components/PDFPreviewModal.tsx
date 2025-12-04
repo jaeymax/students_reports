@@ -204,15 +204,15 @@ const PDFPreviewModal = ({ isOpen, onClose, report }: PDFPreviewModalProps) => {
               <Text style={styles.subtitle}>
                 {report.class} TERMINAL REPORT
               </Text>
-              <Text style={styles.subtitle}>TERM: THREE</Text>
+              <Text style={styles.subtitle}>TERM: ONE</Text>
               <View style={styles.dates}>
                 <Text>
                   VACATION DATE:{" "}
-                  <Text style={{ fontWeight: "bold" }}>8TH AUGUST, 2025</Text>
+                  <Text style={{ fontWeight: "bold" }}>19TH DECEMBER, 2025</Text>
                 </Text>
                 <Text>
                   RE-OPENING DATE:{" "}
-                  <Text style={{ fontWeight: "bold" }}>1ST SEPTEMBER, 2025</Text>
+                  <Text style={{ fontWeight: "bold" }}>5TH JANUARY, 2026</Text>
                 </Text>
               </View>
             </View>
