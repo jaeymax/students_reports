@@ -1,5 +1,17 @@
 export const mockStudentsByClass = {
   "BASIC 4": [
+    "NUNHA KLENAM KUIVI",
+    "ABDUL SALAM",
+    "BOATEND CHRIS",
+    "OWUSU OBED",
+    "STEPHANIE",
+    "ALISHA",
+    "ADIPA",
+    "ADIEPENA",
+    "GLORIA",
+    "SARAH"
+  ],
+  "BASIC 5": [
     "AYISI JOSEPH",
     "YENU SARAH",
     "MUKI DOMINIC AKWESI",
@@ -16,8 +28,9 @@ export const mockStudentsByClass = {
     "OFORI NHYIRA",
     "ALHASSAN MOHAMMED",
     "AMOABISI GABRIEL",
+    "BOAH NATHANIEL"
   ],
-  "BASIC 5": [
+  "BASIC 6": [
     "ENOCH OTOO",
     "KEZIAH ANDOH",
     "EMMANUEL YAWSON DZACKA",
@@ -28,25 +41,14 @@ export const mockStudentsByClass = {
     "BRIDGET ASAMOAH",
     "DANIEL KOFI ROCKY DZAMESHIE",
     "IYDATU HADDY",
+    "AVUI FAFALI LOUISE"
   ],
-  "BASIC 6": [
-    "OBED AHADO",
-    "NHYIRA ANNAN",
+  "BASIC 7": [
     "ABROKWA PAUL",
     "AKOSUA MARY",
-    "SARFOWAA VICTORIA",
     "ADADZEWAA CHRISTIANA",
     "LARYEA GLORIA",
     "AKORLI WISE",
-    "DARKO FRANCIS",
-  ],
-  "BASIC 7": [
-    "DARKO FRANCIS",
-    "OPOKU AYEYI",
-    "HILDA MUKI",
-    "UGONNA BLESSED",
-    "NADIA ANDOH",
-    "LAWRENCIA LARYEA"
   ],
   "BASIC 8": [
     "OMOTI MUKI EMMANUEL",
@@ -73,5 +75,8 @@ export const mockStudentsByClass = {
     "OFORI GOODLUCK BOTWE",
     "YEBOAH EMMANUEL",
     "AFEDZI MICHEAL",
+    "HILDA MUKI",
+    "NADIA ANDOH",
+    "LAWRENCIA LARYEA"
   ],
 } as const;
